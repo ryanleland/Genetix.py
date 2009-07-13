@@ -1,0 +1,1 @@
+This software was created by Ryan M. Leland <ryanleland.com>. If you happen to use it, please let me know.
