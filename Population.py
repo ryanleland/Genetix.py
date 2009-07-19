@@ -10,7 +10,7 @@ class Population:
 	
 		self._selectionRate = 0.5
 		self._crossoverRate = 0.7
-		self._mutationRate = 0.0089
+		self._mutationRate = 0.0189
 		
 	def populate(self, count, genes):
 		self._generation = 1;

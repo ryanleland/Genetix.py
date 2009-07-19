@@ -14,7 +14,7 @@ class Chromosome:
 		self._fitness = fitness
 		
 	def addGene(self, gene):
-		self._genes.append(gene)
+		self._genes.append(bool(gene))
 		
 	def addRandomGenes(self, count):
 		# Seed the random number generator
@@ -30,7 +30,7 @@ class Chromosome:
 		return self._genes[i]
 		
 	def mutateGene(self, i):
-		self._genes[i] = random.randrange(0, 2)
+		self._genes[i] = bool(random.randrange(0, 2))
 		
 	def length(self):
 		return len(self._genes)
