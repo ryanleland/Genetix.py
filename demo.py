@@ -1,9 +1,13 @@
+#!/usr/bin/env python
+
 import random, math
 
 from genetix.population import Population
 from genetix.target import Target
 
+
 class StringTarget(Target):
+
     def fitness(self, chromosome):
         targetVal = '';
         i = 0
