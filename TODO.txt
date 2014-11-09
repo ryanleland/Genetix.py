@@ -1,5 +1,0 @@
-- Optimize stuff... like not evaluating fitness when i don't need to
-
-- Have a reverse option in the population class that can be set by the target
-
-- add more exceptions and error handling
