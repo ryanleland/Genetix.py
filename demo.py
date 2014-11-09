@@ -20,7 +20,7 @@ class StringTarget(Target):
                 
             targetVal = targetVal + chr(letter)
         
-        chromosome.setFitness(float(self.hamming_distance(targetVal, self._value)))
+        chromosome.set_fitness(float(self.hamming_distance(targetVal, self._value)))
         
         # Just for demo purposes
         print targetVal
