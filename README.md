@@ -11,7 +11,7 @@ Installation
 Usage
 =====
 
-There are a few simple steps to usage that is explained in the `demo.py` file in the root of the project. Please feel free to run it, and cnahge values to see how it changes the outcome.
+There are a few simple steps to usage that is explained in the `demo.py` file in the root of the project. Please feel free to run it, and change values to see how it changes the outcome.
 
 	# Import the population.
 	from genetix.population import Population
