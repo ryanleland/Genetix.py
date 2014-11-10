@@ -6,7 +6,7 @@ from chromosome import Chromosome
 
 class Population(object):
 
-    def __init__(self, fitness_function=None, selection_rate=0.5, crossover_rate=0.5, mutation_rate=0.0002):
+    def __init__(self, fitness_function=None, selection_rate=0.7, crossover_rate=1.0, mutation_rate=0.05):
         self.fitness_function = fitness_function
         self.selection_rate = selection_rate
         self.crossover_rate = crossover_rate

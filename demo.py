@@ -1,25 +1,37 @@
 #!/usr/bin/env python
 
+# Import the population.
 from genetix.population import Population
 
 
-CHARS = list("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
+# Create a population.
+population = Population()
 
-p = Population()
-p.populate(1000, {
-  0: CHARS,
-  1: CHARS,
-  2: CHARS,
-  3: CHARS,
-  4: CHARS
+# Set the population size and a blueprint for the chromosome.
+# Note that each item in the dictionary represents a named Gene, which can have any
+# possibility based on a provided range, or list.
+population.populate(10, {
+  0: range(0, 100),
+  1: range(0, 100),
+  2: range(0, 100),
+  3: range(0, 100),
+  4: range(0, 100),
+  5: range(0, 100),
+  6: range(0, 100),
+  7: range(0, 100),
+  8: range(0, 100),
+  9: range(0, 100)
 })
 
-@p.fitness
-def hello(chromosome):
-    target = "Hello"
-    string = "".join([g.value for g in chromosome.genes])
+# Decorate a function to use test fitness.
+@population.fitness
+def max(chromosome):
+    # Return a sum of all the gene values.
+    return sum([g.value for g in chromosome.genes])
 
-    return sum([ch1 == ch2 for ch1, ch2 in zip(target, string)])
-
-for g in p.evolve(1000):
-    print p.fittest()
+# Evolve for 100 generations.
+# The method is a generator to make it easier to do work after each generation.
+for g in population.evolve(100):
+    # The 'fittest()' method will return the best chromosome as determined by the
+    # fitness method.
+    print population.fittest()
