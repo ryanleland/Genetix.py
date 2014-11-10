@@ -1,15 +1,15 @@
 Genetix.py
-----------
+==========
 
 Created based on the need for an easy to use and understand GA library.
 
 Installation
-============
+------------
 
 	$ pip install https://github.com/ryanleland/Genetix.py
 
 Usage
-=====
+-----
 
 There are a few simple steps to usage that is explained in the `demo.py` file in the root of the project. Please feel free to run it, and cnahge values to see how it changes the outcome.
 
