@@ -38,7 +38,7 @@ There are a few simple steps to usage that is explained in the `demo.py` file in
 	})
 	```
 
-3. Decorate a function to use test fitness.
+3. Decorate a function to evaluate fitness on each cromosome. It simply has to return a numeric value that can be sorted on (higher is better).
 	
 	```python
 	@population.fitness
