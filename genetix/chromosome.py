@@ -1,37 +1,53 @@
 import random
 
+from gene import Gene
+
 
 class Chromosome(object):
-    def __init__(self):
-        self._genes = list()
 
-    def __cmp__(self, other):
-        return cmp(self.fitness(), other.fitness())
+    def __init__(self, names=[], genes=[]):
+        self.names = names
+        self.genes = genes
 
-    def fitness(self):
-        return self._fitness
-        
-    def set_fitness(self, fitness):
-        self._fitness = fitness
-        
-    def add_gene(self, gene):
-        self._genes.append(bool(gene))
-        
-    def add_random_genes(self, count):
-        # Seed the random number generator
-        random.seed()
-    
-        for i in range(0, count):
-            self.add_gene(random.randrange(0, 2))
-        
-    def genes(self):
-        return self._genes
-    
-    def gene(self, i):
-        return self._genes[i]
-        
-    def mutate_gene(self, i):
-        self._genes[i] = bool(random.randrange(0, 2))
-        
-    def length(self):
-        return len(self._genes)
+    def construct(self, blueprint):
+        self.names = []
+        self.genes = []
+
+        for name, values in blueprint.items():
+            self.names.append(name)
+            self.genes.append(Gene(values))
+
+    def offspring(self, x, y, crossover_rate, mutation_rate):
+        self.names = x.names
+        self.genes = []
+
+        gene_count = int((len(x) + len(y)) / 2)
+        crossover = random.randrange(0, int(gene_count * crossover_rate))
+
+        # Populate with X
+        for i in range(0, crossover):
+            self.genes.append(x.genes[i])
+            
+        # Populate with Y
+        for i in range(crossover, gene_count):
+            self.genes.append(y.genes[i])
+
+        mutation = int(10000 * mutation_rate)
+        for gene in self.genes:
+            if mutation > random.randrange(0, 10000):
+                gene.mutate()
+
+    def get_gene(self, index):
+        return self.genes[index]
+
+    def set_gene(self, index, gene):
+        self.genes[index] = value
+
+    def mutate_gene(self, index):
+        self.genes[index].mutate()
+
+    def __len__(self):
+        return len(self.genes)
+
+    def __repr__(self):
+        return "\t".join(["%s:%s" % (name, gene) for name, gene in zip(self.names, self.genes)])

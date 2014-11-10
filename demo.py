@@ -1,40 +1,25 @@
 #!/usr/bin/env python
 
-import random, math
-
 from genetix.population import Population
-from genetix.target import Target
 
 
-class StringTarget(Target):
+CHARS = list("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
 
-    def fitness(self, chromosome):
-        targetVal = '';
-        i = 0
-        while i < chromosome.length():
-            letter = 0
-            for n in range(i, (i + 8)):
-                letter = letter << 1
-                letter = letter | chromosome.gene(i)
-                i = i + 1
-                
-            targetVal = targetVal + chr(letter)
-        
-        chromosome.set_fitness(float(self.hamming_distance(targetVal, self._value)))
-        
-        # Just for demo purposes
-        print targetVal
-        
-    def hamming_distance(self, string1, string2):
-        assert len(string1) == len(string2)
-        return sum([ch1 != ch2 for ch1, ch2 in zip(string1, string2)])
+p = Population()
+p.populate(1000, {
+  0: CHARS,
+  1: CHARS,
+  2: CHARS,
+  3: CHARS,
+  4: CHARS
+})
 
-pop = Population()
-target = StringTarget("Hello World!")
+@p.fitness
+def hello(chromosome):
+    target = "Hello"
+    string = "".join([g.value for g in chromosome.genes])
 
-pop.populate(1000, (12 * 8))
+    return sum([ch1 == ch2 for ch1, ch2 in zip(target, string)])
 
-while pop.generation() < 3000: 
-    pop.selection(target)
-    
-print pop.fittest().fitness()
+for g in p.evolve(1000):
+    print p.fittest()

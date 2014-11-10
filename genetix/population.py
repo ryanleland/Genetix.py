@@ -1,94 +1,86 @@
 import random
+import operator
 
 from chromosome import Chromosome
 
 
 class Population(object):
-    
-    def __init__(self, selection_rate=0.5, crossover_rate=0.7, mutation_rate=0.0189):
-        self._chromosomes = list()
-    
-        self._generation = 0;
-    
-        self._selection_rate = selection_rate
-        self._crossover_rate = crossover_rate
-        self._mutation_rate = mutation_rate
-        
-    def populate(self, count, genes):
-        self._generation = 1;
-        
-        for i in range(0, count):
-            chromosome = Chromosome()
-            chromosome.add_random_genes(genes)
-            
-            self._chromosomes.append(chromosome)
-    
-    def sort(self):
-        # Set the fitness
-        for i in range(0, len(self._chromosomes)):
-            self._target.fitness(self._chromosomes[i])
-            
-        # Sort the list
-        self._chromosomes.sort()
-    
-    def selection(self, target):
-        self.set_target(target)
-        self.sort()
-        
-        # Get the count and how many to remove
-        count = len(self._chromosomes)
-        removeCount = int(count * self._selection_rate)
-        
-        # Remove the weak
-        while removeCount < len(self._chromosomes):
-            self._chromosomes.pop()
-            
-        # Create the new
-        while count > len(self._chromosomes):
-            # Pick two chromosomes
-            x = random.randrange(0, len(self._chromosomes))
-            y = random.randrange(0, len(self._chromosomes))
-            
-            # Add the new offspring
-            chromosome = self.create_offspring(self._chromosomes[x], self._chromosomes[y])
-            self._chromosomes.append(chromosome)
-            
-        # Increment generation  
-        self._generation += 1
-        
-    def generation(self):
-        return self._generation
-    
-    def create_offspring(self, chromosomeX, chromosomeY):
-        # Create new chromosom
-        chromosome = Chromosome()
-        
-        # Get the number of genes & set the crossover
-        geneCount = int((chromosomeX.length() + chromosomeY.length()) / 2)
-        crossover = random.randrange(0, int(geneCount * self._crossover_rate))
-        
-        # Populate with X
-        for i in range(0, crossover):
-            chromosome.add_gene(chromosomeX.gene(i))
-            
-        # Populate with Y
-        for i in range(crossover, geneCount):
-            chromosome.add_gene(chromosomeY.gene(i))
-            
-        # Do the mutation
-        mutation = int(10000 * self._mutation_rate)
-        for i in range(0, geneCount):
-            if(random.randrange(0, 10000) < mutation):
-                chromosome.mutate_gene(i)
-            
-        # Return the new chromosome
-        return chromosome
-    
+
+    def __init__(self, fitness_function=None, selection_rate=0.5, crossover_rate=0.5, mutation_rate=0.0002):
+        self.fitness_function = fitness_function
+        self.selection_rate = selection_rate
+        self.crossover_rate = crossover_rate
+        self.mutation_rate = mutation_rate
+
+        self.population = []
+        self.population_size = 0
+        self.gene_count = 0
+
+        self.best_fit = None
+        self.best_fit_fitness = 0
+
+    def populate(self, population_size, chromosome_blueprint):
+        self.population_size = population_size
+        self.gene_count = len(chromosome_blueprint)
+
+        for n in range(0, population_size):
+            c = Chromosome()
+            c.construct(chromosome_blueprint)
+
+            self.population.append(c)
+
+    def evolve(self, generations):
+        if not self.fitness_function:
+            raise Exception("Please supply a fitness function to evolve population.")
+
+        if not len(self.population):
+            raise Exception("Can't evolve an empty population. Please run populate method.")
+
+        for generation in range(0, generations):
+            random.seed()
+            self.multiply(self.select())
+
+            yield generation + 1
+
     def fittest(self):
-        '''Returns the best fit out of the current population.
+        return self.best_fit, self.best_fit_fitness
+
+    def select(self):
+        selected = []
+        selection_count = int(self.population_size * self.selection_rate)
+
+        # Evaluate each chromosome
+        for chromosome in self.population:
+            fitness = self.evaluate(chromosome)
+            selected.append((chromosome, fitness))
+
+        # Get the selection.
+        selected = sorted(selected, key=operator.itemgetter(1), reverse=True)[:selection_count]
+        
+        selection = selected[0]
+        if selection[1] > self.best_fit_fitness:
+            self.best_fit_fitness = selection[1]
+            self.best_fit = selection[0]
+
+        # Create the new population.
+        self.population = [s[0] for s in selected]
+
+        return [s[0] for s in selected]
+
+    def multiply(self, selected):
+        '''Generate offspring until we're back to the right population size.
         '''
-        self.sort()
-        return self._chromosomes[(len(self._chromosomes) - 1)]
-    
-    def set_target(self, target):
-        self._target = target
+        while len(self.population) < self.population_size:
+            x = random.choice(selected)
+            y = random.choice(selected)
+
+            chromosome = Chromosome()
+            chromosome.offspring(x, y, self.crossover_rate, self.mutation_rate)
+            
+            self.population.append(chromosome)
+
+    def evaluate(self, chromosome):
+        return self.fitness_function(chromosome)
+
+    def fitness(self, fitness_function):
+        self.fitness_function = fitness_function
