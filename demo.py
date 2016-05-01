@@ -39,7 +39,7 @@ def max(chromosome):
     # Use fuzzywuzzy to return the % match of the string to the target string.
     return fuzz.QRatio(string, target)
 
-# Evolve for 100 generations.
+# Evolve for 10000 generations.
 # The method is a generator to make it easier to do work after each generation.
 for g in population.evolve(10000):
     # The 'fittest()' method will return the best chromosome as determined by
