@@ -36,6 +36,7 @@ def max(chromosome):
     string = "".join([g.value for g in chromosome.genes])
     target = "Hello, World!"
 
+    # Use fuzzywuzzy to return the % match of the string to the target string.
     return fuzz.QRatio(string, target)
 
 # Evolve for 100 generations.
