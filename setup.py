@@ -7,7 +7,9 @@ import genetix
 
 extras = {
     'develop': [
-        'pytest'
+        'pytest',
+        'fuzzywuzzy==0.8.0',
+        'python-Levenshtein==0.12.0'
     ]
 }
 
