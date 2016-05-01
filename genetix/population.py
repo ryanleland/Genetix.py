@@ -56,7 +56,7 @@ class Population(object):
 
         # Get the selection.
         selected = sorted(selected, key=operator.itemgetter(1), reverse=True)[:selection_count]
-        
+
         selection = selected[0]
         if selection[1] > self.best_fit_fitness:
             self.best_fit_fitness = selection[1]
@@ -76,7 +76,7 @@ class Population(object):
 
             chromosome = Chromosome()
             chromosome.offspring(x, y, self.crossover_rate, self.mutation_rate)
-            
+
             self.population.append(chromosome)
 
     def evaluate(self, chromosome):

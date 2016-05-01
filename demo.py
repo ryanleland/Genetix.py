@@ -8,8 +8,8 @@ from genetix.population import Population
 population = Population()
 
 # Set the population size and a blueprint for the chromosome.
-# Note that each item in the dictionary represents a named Gene, which can have any
-# possibility based on a provided range, or list.
+# Note that each item in the dictionary represents a named Gene, which can have
+# any possibility based on a provided range, or list.
 population.populate(10, {
   0: range(0, 100),
   1: range(0, 100),
@@ -32,6 +32,6 @@ def max(chromosome):
 # Evolve for 100 generations.
 # The method is a generator to make it easier to do work after each generation.
 for g in population.evolve(100):
-    # The 'fittest()' method will return the best chromosome as determined by the
-    # fitness method.
+    # The 'fittest()' method will return the best chromosome as determined by
+    # the fitness method.
     print population.fittest()

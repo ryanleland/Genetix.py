@@ -10,7 +10,7 @@ class Gene(object):
     def mutate(self):
         assert len(self.values)
         self.value = random.choice(self.values)
-        
+
         return self
 
     def __repr__(self):

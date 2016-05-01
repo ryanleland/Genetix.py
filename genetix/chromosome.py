@@ -27,7 +27,7 @@ class Chromosome(object):
         # Populate with X
         for i in range(0, crossover):
             self.genes.append(x.genes[i])
-            
+
         # Populate with Y
         for i in range(crossover, gene_count):
             self.genes.append(y.genes[i])

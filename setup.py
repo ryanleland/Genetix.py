@@ -10,10 +10,9 @@ setup(
     description=genetix.__doc__,
     url="https://github.com/ryanleland/Genetix.py",
     author=genetix.__author__,
-    packages = [
+    packages=[
         'genetix'
     ],
-    
     package_data={'': ['LICENSE']},
     include_package_data=True,
     license=open("LICENSE").read(),
