@@ -8,7 +8,7 @@ class TestGene(unittest.TestCase):
     def setUp(self):
         self.gene = Gene([0])
 
-    def test_constructor(self):
+    def test_init(self):
         self.assertIsInstance(self.gene, Gene)
 
     def test_values_len_assertion(self):
@@ -25,6 +25,7 @@ class TestGene(unittest.TestCase):
 
     def test_repr(self):
         self.assertEquals(str(self.gene), '0')
+
 
 if __name__ == '__main__':
     unittest.main()

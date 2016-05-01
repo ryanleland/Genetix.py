@@ -1,41 +1,54 @@
+# -*- coding: utf-8 -*-
+
 import random
 
 from gene import Gene
 
 
 class Chromosome(object):
+    """The base Chromosome class, which is a container for genes, and handles
+    mutation via the offspring method.
+    """
 
     def __init__(self, names=[], genes=[]):
         self.names = names
         self.genes = genes
 
-    def construct(self, blueprint):
-        self.names = []
-        self.genes = []
+    @classmethod
+    def construct(cls, blueprint):
+        names = []
+        genes = []
 
         for name, values in blueprint.items():
-            self.names.append(name)
-            self.genes.append(Gene(values))
+            names.append(name)
+            genes.append(Gene(values))
 
-    def offspring(self, x, y, crossover_rate, mutation_rate):
-        self.names = x.names
-        self.genes = []
+        return cls(names, genes)
 
-        gene_count = int((len(x) + len(y)) / 2)
+    @classmethod
+    def offspring(cls, x, y, crossover_rate, mutation_rate):
+        assert len(x) == len(y)
+
+        genes = []
+        gene_count = len(x)
+
+        # Calculate mutation and crossover
+        mutation = int(10000 * mutation_rate)
         crossover = random.randrange(0, int(gene_count * crossover_rate))
 
         # Populate with X
         for i in range(0, crossover):
-            self.genes.append(x.genes[i])
+            genes.append(x.genes[i])
 
         # Populate with Y
         for i in range(crossover, gene_count):
-            self.genes.append(y.genes[i])
+            genes.append(y.genes[i])
 
-        mutation = int(10000 * mutation_rate)
-        for gene in self.genes:
+        for gene in genes:
             if mutation > random.randrange(0, 10000):
                 gene.mutate()
+
+        return cls(x.names, genes)
 
     def get_gene(self, index):
         return self.genes[index]

@@ -4,6 +4,13 @@ from setuptools import setup
 
 import genetix
 
+
+extras = {
+    'develop': [
+        'pytest'
+    ]
+}
+
 setup(
     name="genetix-py",
     version=genetix.__version__,
@@ -22,5 +29,6 @@ setup(
         'Natural Language :: English',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
-    )
+    ),
+    extras_require=extras
 )
