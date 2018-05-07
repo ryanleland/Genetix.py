@@ -2,7 +2,7 @@
 
 import random
 
-from gene import Gene
+from genetix.gene import Gene
 
 
 class Chromosome(object):

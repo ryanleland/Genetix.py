@@ -3,7 +3,7 @@
 import random
 import operator
 
-from chromosome import Chromosome
+from genetix.chromosome import Chromosome
 
 
 class Population(object):
