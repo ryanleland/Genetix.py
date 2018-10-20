@@ -25,7 +25,7 @@ class Population(object):
         self.size = size
         self.gene_count = len(chromosome_blueprint)
 
-        for n in range(0, size):
+        for _ in range(0, size):
             c = Chromosome.construct(chromosome_blueprint)
             self.chromosomes.append(c)
 

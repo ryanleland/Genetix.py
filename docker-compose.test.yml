@@ -1,6 +1,5 @@
 version: '3.3'
-
 services:
-  sut:
+  test:
     build: .
     command: py.test tests/

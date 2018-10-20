@@ -54,7 +54,7 @@ class Chromosome(object):
         return self.genes[index]
 
     def set_gene(self, index, gene):
-        self.genes[index] = value
+        self.genes[index] = gene
 
     def mutate_gene(self, index):
         self.genes[index].mutate()
